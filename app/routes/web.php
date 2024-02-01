@@ -29,6 +29,7 @@ Route::group(['prefix' => 'ideas/', 'as' => 'ideas.',], function () {
 
 Route::resource('users', UserController::class)->only('show','edit','update')->middleware('auth');
 
+Route::get('profile', [UserController::class,'profile'])->middleware('auth')->name('profile');
 
 // Route::delete('/{id}', [IdeaController::class,'store'])->name('ideas.destroy');
 

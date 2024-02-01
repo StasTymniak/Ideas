@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image',
+        'bio',
     ];
 
     /**
@@ -44,11 +46,22 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function ideas(){
-        return $this->hasMany(Idea::class)->orderBy('created_at','desc');//or orderBy()->latest() for created at
+    public function ideas()
+    {
+        return $this->hasMany(Idea::class)->orderBy('created_at', 'desc'); //or orderBy()->latest() for created at
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class)->latest();
+    }
+
+    public function getImageURL()
+    {
+        if ($this->image) {
+            return url('storage/'.$this->image);
+        }
+
+        return "https://api.dicebear.com/6.x/fun-emoji/svg?seed={$this->name}}";
     }
 }
