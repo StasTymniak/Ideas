@@ -13,7 +13,7 @@
                 <form action="{{ route('ideas.destroy', $idea->id) }}" method="POST">
                     @csrf
                     @method('delete')
-                    @auth()
+                    @auth
                         @if (auth()->id() == $idea->user->id)
                             <a class="mx-2" href="{{ route('ideas.edit', $idea->id) }}">Edit</a>
                             <a href="{{ route('ideas.show', $idea->id) }}">View</a>

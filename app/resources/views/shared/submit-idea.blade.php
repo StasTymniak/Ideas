@@ -1,4 +1,4 @@
-@auth()
+@auth
     <h4>Share your ideas</h4>
 
     <form action="{{ route('ideas.store') }}" method="POST">
@@ -15,6 +15,6 @@
     </form>
 @endauth
 
-@guest()
+@guest
     <h4>Login to share your ideas</h4>
 @endguest
