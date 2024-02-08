@@ -13,7 +13,9 @@ class DashboardController extends Controller
         //     "content"=> "test2",
         // ]);
         // $idea->save();
-        $ideas = Idea::orderBy('created_at','DESC');
+
+        //without('user') - disable eager loading
+        $ideas = Idea::with('comments.user')->orderBy('created_at','DESC');
 
         //where content like %test%
         if(request()->has('search')){
@@ -21,7 +23,7 @@ class DashboardController extends Controller
         }
 
         return view("dashboard",[
-            'ideas'=>$ideas->paginate(3)
+            'ideas'=>$ideas->paginate(5)
         ]);
     }
 }
