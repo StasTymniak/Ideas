@@ -14,11 +14,13 @@ class IdeaController extends Controller
     //     return redirect()->route('dashboard')->with('success','Idea deleted successfully');
     // }
 
-    public function show(Idea $idea){
+    public function show(Idea $idea)
+    {
         return view('ideas.show', compact('idea'));
     }
 
-    public function store(){
+    public function store()
+    {
         // request()->validate([
         //     'content'=> 'required|min:3|max:240',
         // ]);
@@ -29,42 +31,45 @@ class IdeaController extends Controller
         // );
 
         $validated = request()->validate([
-            'content'=> 'required|min:3|max:240',
+            'content' => 'required|min:3|max:240',
         ]);
 
         $validated['user_id'] = auth()->id();
 
         Idea::create($validated);
 
-        return redirect()->route('dashboard')->with('success','Idea created successfully');
+        return redirect()->route('dashboard')->with('success', 'Idea created successfully');
 
     }
 
-    public function destroy(Idea $idea){
+    public function destroy(Idea $idea)
+    {
         // if(auth()->id() !== $idea->user_id){
         //     abort(404,'You can delete only your idea');
         // }
 
-    $this->authorize('delete.idea',$idea);
+        $this->authorize('delete', $idea);
 
         $idea->delete();
 
-        return redirect()->route('dashboard')->with('success','Idea deleted successfully');
+        return redirect()->route('dashboard')->with('success', 'Idea deleted successfully');
     }
 
-    public function edit(Idea $idea){
+    public function edit(Idea $idea)
+    {
         // if(auth()->id() !== $idea->user_id){
         //     abort(404);
         // }
 
-        $this->authorize('edit.idea',$idea);
+        $this->authorize('update', $idea);
 
 
         $editing = true;
-        return view('ideas.show', compact('idea','editing'));
+        return view('ideas.show', compact('idea', 'editing'));
     }
 
-    public function update(Idea $idea){
+    public function update(Idea $idea)
+    {
 
         // request()->validate([
         //     'content'=> 'required|min:3|max:240',
@@ -76,14 +81,14 @@ class IdeaController extends Controller
         //     abort(404);
         // }
 
-        $this->authorize('edit.idea',$idea);
+        $this->authorize('update', $idea);
 
         $validated = request()->validate([
-            'content'=> 'required|min:3|max:240',
+            'content' => 'required|min:3|max:240',
         ]);
 
         $idea->update($validated);
 
-        return redirect()->route('ideas.show',$idea->id)->with('success','Idea updated successfully');
+        return redirect()->route('ideas.show', $idea->id)->with('success', 'Idea updated successfully');
     }
 }
