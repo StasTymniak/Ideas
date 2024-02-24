@@ -41,18 +41,25 @@ class IdeaController extends Controller
     }
 
     public function destroy(Idea $idea){
-        if(auth()->id() !== $idea->user_id){
-            abort(404,'You can delete only your idea');
-        }
+        // if(auth()->id() !== $idea->user_id){
+        //     abort(404,'You can delete only your idea');
+        // }
+
+    $this->authorize('delete.idea',$idea);
+
         $idea->delete();
 
         return redirect()->route('dashboard')->with('success','Idea deleted successfully');
     }
 
     public function edit(Idea $idea){
-        if(auth()->id() !== $idea->user_id){
-            abort(404);
-        }
+        // if(auth()->id() !== $idea->user_id){
+        //     abort(404);
+        // }
+
+        $this->authorize('edit.idea',$idea);
+
+
         $editing = true;
         return view('ideas.show', compact('idea','editing'));
     }
@@ -65,9 +72,11 @@ class IdeaController extends Controller
 
         // $idea->content = request()->get('content','');
         // $idea->save();
-        if(auth()->id() !== $idea->user_id){
-            abort(404);
-        }
+        // if(auth()->id() !== $idea->user_id){
+        //     abort(404);
+        // }
+
+        $this->authorize('edit.idea',$idea);
 
         $validated = request()->validate([
             'content'=> 'required|min:3|max:240',
